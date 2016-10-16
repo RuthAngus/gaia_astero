@@ -17,10 +17,10 @@ class gaia_astero(object):
             rgs = pd.read_csv("stello_2013_tgas_xmatch.csv")
             self.redgiant = rgs
 
-            sls = pd.read_csv("solar-like.csv")
+            sls = pd.read_csv("solar-like-TGAS.csv")
             self.solarlike = sls
 
-            # self.all_stars = ("all_stars.csv")
+            self.all_stars = pd.concat([sls, rgs])
 
         def star(self, id):
             """
@@ -49,4 +49,4 @@ class gaia_astero(object):
 if __name__ == "__main__":
     id = 6116048
     ga = gaia_astero()
-    print(ga.star(id))
+    # print(ga.star(id))
