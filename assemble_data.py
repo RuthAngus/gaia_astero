@@ -64,22 +64,16 @@ def get_all_astero():
     The Metcalfe values take precedence, followed by the Silva-Aguirre values,
     then Chaplin table 6, Chaplin table 5 then Chaplin table 4.
     """
-    met = pd.read_csv("metcalfe2014.txt")
-    sag = pd.read_csv("silva-aguirre.txt")
-    sag = np.array(sag)
+    met = pd.read_csv("met.csv")
+    sag = pd.read_csv("sag.csv")
     ct1 = pd.read_csv("chaplin_table1.csv")
     ct2 = pd.read_csv("chaplin_table2.csv")
     ct4 = pd.read_csv("chaplin_table4.csv")
     ct5 = pd.read_csv("chaplin_table5.csv")
     ct6 = pd.read_csv("chaplin_table6.csv")
-    table = np.array(ct5)
 
-    table = replace(ct4["kepid"], ct5["kepid"], np.array(ct4), table)
-    table = replace(ct6["kepid"], table[:, 0], np.array(ct6), table)
-    logg, logg_err, rho, rho_err, dnu, dnu_err = convert(met["mass"],
-                                                         met["mass_err"],
-                                                         met["radius"],
-                                                         met["radius_err"])
+    # table = replace(ct4["kepid"], ct5["kepid"], np.array(ct4), table)
+    # table = replace(ct6["kepid"], table[:, 0], np.array(ct6), table)
 
     # table = replace(met["kepid"], table[:, 0], np.array(met), table)
     # table = replace(sag["kepid"], table[:, 0], sag, table)
@@ -90,12 +84,85 @@ def get_all_astero():
     # print(table2)
 
     m = ct4.kepid.isin(ct5.kepid)
-    tab = pd.concat([ct5, ct4[~m]])
-    m = ct5.kepid.isin(ct6.kepid)
-    table = pd.concat([ct6, ct5[~m]])
+    table = pd.concat([ct5, ct4[~m]])
+    m = table.kepid.isin(ct6.kepid)
+    table = pd.concat([ct6, table[~m]])
+    chap_ref = ["Chaplin et al. (2014)" for i in range(len(table))]
+    table["ref"] = chap_ref
 
-    m = met.kepid.isin(table.kepid)
+    cols = table.columns.tolist()
+    met = met[cols]
+    m = table.kepid.isin(met.kepid)
+    table = pd.concat([met, table[~m]])
+    sag = sag[cols]
+    m = table.kepid.isin(sag.kepid)
+    table = pd.concat([sag, table[~m]])
+    table.to_csv("solar-like.csv", index=False)
+
+
+def format():
+    # get the metcalfe and s-a cats in the right format.
+
+    met = pd.read_csv("metcalfe2014.txt")
+    logg, logg_err, rho, rho_err, dnu, dnu_err = convert(met["mass"],
+                                                         met["mass_err"],
+                                                         met["radius"],
+                                                         met["radius_err"])
+    met_ref = ["Metcalfe et al. (2014)" for i in range(len(met))]
+
+    del met["Z"]
+    del met["Z_err"]
+    del met["Y"]
+    del met["Y_err"]
+    del met["alpha"]
+    del met["alpha_err"]
+    del met["a_0"]
+    del met["f"]
+    del met["AMP_b"]
+
+    met["mass_errp"] = met["mass_err"]
+    met["mass_errm"] = met["mass_err"]
+    met["radius_errp"] = met["radius_err"]
+    met["radius_errm"] = met["radius_err"]
+    met["age_errp"] = met["age_err"]
+    met["age_errm"] = met["age_err"]
+
+    del met["mass_err"]
+    del met["radius_err"]
+    del met["age_err"]
+
+    met['density'] = rho
+    met['density_errp'] = rho_err
+    met['density_errm'] = rho_err
+    met['logg'] = logg
+    met['logg_errp'] = logg_err
+    met['logg_errm'] = logg_err
+    met['ref'] = met_ref
+
+    ct6 = pd.read_csv("chaplin_table6.csv")
+    cols = ct6.columns.tolist()
+    cols.append("ref")
+    met = met[cols]
+    met.to_csv("met.csv")
+
+    sag = pd.read_csv("silva-aguirre.txt")
+    sag_ref = ["Silva-Aguirre et al. (2014)" for i in range(len(sag))]
+    del sag["koi"]
+    del sag["teff"]
+    del sag["feh"]
+    del sag["feh_err"]
+    del sag["luminosity"]
+    del sag["luminosity_errp"]
+    del sag["luminosity_errm"]
+    del sag["distance"]
+    del sag["distance_errp"]
+    del sag["distance_errm"]
+
+    sag["ref"] = sag_ref
+    sag = sag[cols]
+    sag.to_csv("sag.csv")
 
 
 if __name__ == "__main__":
     get_all_astero()
+    # format()
