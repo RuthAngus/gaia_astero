@@ -1,0 +1,3 @@
+include README.md
+include stello_2013_tgas_xmatch.csv
+include solar-like.csv
