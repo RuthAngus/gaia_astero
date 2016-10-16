@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import astropy.constants as const
 import astropy.units as u
-import matplotlib.pyplot as plt
 
 
 def match(id1, id2):
@@ -71,17 +70,6 @@ def get_all_astero():
     ct4 = pd.read_csv("chaplin_table4.csv")
     ct5 = pd.read_csv("chaplin_table5.csv")
     ct6 = pd.read_csv("chaplin_table6.csv")
-
-    # table = replace(ct4["kepid"], ct5["kepid"], np.array(ct4), table)
-    # table = replace(ct6["kepid"], table[:, 0], np.array(ct6), table)
-
-    # table = replace(met["kepid"], table[:, 0], np.array(met), table)
-    # table = replace(sag["kepid"], table[:, 0], sag, table)
-
-    # table2 = pd.merge(ct5, ct4, how="left", on="kepid", suffixes=["", "_2"])
-    # m = table2["age_2"].isnull()
-    # table2[~m]["age"] = table2[~m]["age_2"]
-    # print(table2)
 
     m = ct4.kepid.isin(ct5.kepid)
     table = pd.concat([ct5, ct4[~m]])
