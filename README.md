@@ -19,6 +19,10 @@ or its 2MASS designation::
 
     >>> properties_df = ga.star("2MASS J19241341+3633358")
 
+If you want, say, the age of a star, do::
+
+    >>> age = properties_df.age
+
 Column headings:
 
 kepid, nu_max, delta_nu, tm_designation, teff, teff_err1, teff_err2, logg,
