@@ -1,7 +1,14 @@
 # gaia_astero
 Catalogues of Gaia stars with asteroseismic parameters.
 
-To get the Gaia-astero catalogues as a pandas dataframe::
+Installation
+------------
+
+>> git clone https://github.com/RuthAngus/gaia_astero.git
+>> cd gaia_astero
+>> python setup.py install
+
+To get the Gaia-astero catalogues as a pandas dataframe:
 
     >>> import gaia_astero
     >>> ga = gaia_astero.gaia_astero()
@@ -11,15 +18,15 @@ To get the Gaia-astero catalogues as a pandas dataframe::
     >>> all_star_df = ga.all_stars  # all the stars
 
 To get the properties of a single star, use the star function with the Kepler
-id, e.g.::
+id, e.g.:
 
     >>> properties_df = ga.star("757137")
 
-or its 2MASS designation::
+or its 2MASS designation:
 
     >>> properties_df = ga.star("2MASS J19241341+3633358")
 
-If you want, say, the age of a star, do::
+If you want, say, the age of a star, do:
 
     >>> age = properties_df.age
 
