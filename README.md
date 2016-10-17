@@ -25,7 +25,8 @@ or its 2MASS designation:
 
     >>> properties_df = ga.star("J19285935+4758102")
 
-If you want, say, the age of a star, do:
+If you want, say, the age of a star, (check to see if property is one of the
+column headings below) do:
 
     >>> age = properties_df.age
 
@@ -66,6 +67,7 @@ tgas_phot_g_mean_mag, tgas_phot_variable_flag, tgas_l, tgas_b, tgas_ecl_lon,
 tgas_ecl_lat, tgas_match_distance
 
 Red Giant Column headings:
+
 kepid,P13,G,tm_designation,GLAT,GLON,Teffc,e_Teffc,Teff,e_Teff,Dnu,e_Dnu,
 numax,e_numax,Notes,Teff1,e_Teff1,[M/H]1,e_[M/H]1,M1,E_M1,e_M1,R1,E_R1,e_R1,
 log.g1,E_log.g1,e_log.g1,rho1,E_rho1,e_rho1,Teff2,e_Teff2,[M/H]2,e_[M/H]2,M2,
