@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pkg_resources import resource_filename
 
 
 class gaia_astero(object):
@@ -14,10 +15,13 @@ class gaia_astero(object):
 
         def __init__(self):
 
-            rgs = pd.read_csv("stello_2013_tgas_xmatch.csv")
+            rgs = pd.read_csv(resource_filename(__name__,
+                                                "apokasc-tgas.csv")
+                              )
             self.redgiant = rgs
 
-            sls = pd.read_csv("solar-like-TGAS.csv")
+            sls = pd.read_csv(resource_filename(__name__,
+                                                "solar-like-TGAS.csv"))
             self.solarlike = sls
 
             self.all_stars = pd.concat([sls, rgs])
