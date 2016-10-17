@@ -4,9 +4,9 @@ Catalogues of Gaia stars with asteroseismic parameters.
 Installation
 ------------
 
->>> git clone https://github.com/RuthAngus/gaia_astero.git
->>> cd gaia_astero
->>> python setup.py install
+    >> git clone https://github.com/RuthAngus/gaia_astero.git
+    >> cd gaia_astero
+    >> python setup.py install
 
 To get the Gaia-astero catalogues as a pandas dataframe:
 
