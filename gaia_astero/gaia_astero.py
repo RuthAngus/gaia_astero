@@ -24,7 +24,7 @@ class gaia_astero(object):
                                                 "solar-like-TGAS.csv"))
             self.solarlike = sls
 
-            self.all_stars = pd.concat([sls, rgs])
+            # self.all_stars = pd.concat([sls, rgs])
 
         def star(self, id):
             """
@@ -33,8 +33,9 @@ class gaia_astero(object):
             """
             if len(str(id)) > 9:
                 id_type = "tm_designation"
-                id = str
+                id = str(id)
             else:
+                id = int(id)
                 id_type = "kepid"
 
             m = id == self.solarlike[id_type]
@@ -43,14 +44,18 @@ class gaia_astero(object):
                 print("Solar-like star")
                 return self.solarlike.iloc[np.where(m)[0][0]]
 
-            m = id == self.solarlike[id_type]
-            rg = self.redgiant.kepid[m]
+            m = id == self.redgiant[id_type]
+            rg = self.redgiant[id_type][m]
+            print(rg)
+            print(id)
             if len(rg[m]):
                 print("Red Giant")
                 return self.redgiant.iloc[np.where(m)[0][0]]
+            else:
+                return "Object not found in catalogue. It's either not an " \
+                    "asteroseismic target or not in TGAS."
 
 
 if __name__ == "__main__":
-    id = 6116048
     ga = gaia_astero()
-    # print(ga.star(id))
+    properties_df = ga.star("J18583782+4822494")
